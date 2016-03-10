@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Page</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="include/css/jquery-ui.min.css" />
+		<link rel="stylesheet" href="include/css/bootstrap.css" />
+		
+		<script src="include/js/jquery/jquery.min.js"></script>
+		<script src="include/js/config/config.js"></script>
+		<script>
+			function saves(){
+				var sendObj = {}
+				$(".userInput").each(function(){
+					var id = $(this).prop("id");
+					if(id.length > 0){
+						sendObj[id] = $(this).val();
+					}else{
+						var objClass = $(this).prop("class");
+						if(objClass.search("inputArr") != -1){
+							var name = $(this).attr("name");
+							// console.log($(this));
+							var values = $(this).val();
+							if(typeof sendObj[name] == "undefined"){
+								sendObj[name] = [];
+							}
+							sendObj[name].push(values);
+						}
+
+					}
+				});
+				// return sendObj;
+				console.log(sendObj);
+				$.post("http://127.0.0.1:168/createapi/buildapi",sendObj,function(rs){
+					console.log(rs);
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<div class="row col-md-10">
+			<div class="form-group">
+				<label class="col-sm-2 form-control-label">API Type</label>
+				<div class="col-sm-10">
+				  <input type="text" class="form-control userInput" id="apiType">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 form-control-label">API Code</label>
+				<div class="col-sm-10">
+				  <input type="text" class="form-control userInput" id="apiCode">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 form-control-label">API 設定</label>
+				<div class="col-sm-10">
+				  	<div class="input-group">
+						<div class="input-group-addon">API Name</div>
+						<input type="text" class="form-control userInput inputArr" name="apiName">
+					</div>
+					<div class="input-group">
+						<div class="input-group-addon">API url</div>
+						<input type="text" class="form-control userInput inputArr" name="apiUrl">
+					</div>
+
+					<div class="input-group">
+						<div class="input-group-addon">API Name</div>
+						<input type="text" class="form-control userInput inputArr" name="apiName">
+					</div>
+					<div class="input-group">
+						<div class="input-group-addon">API url</div>
+						<input type="text" class="form-control userInput inputArr" name="apiUrl">
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 form-control-label">API 函式</label>
+				<div class="col-sm-10">
+					<div class="input-group">
+						<div class="input-group-addon">Execute Function Variable</div>
+						<input type="text" class="form-control userInput inputArr" name="executeFunctionVariable">	
+					</div>
+					<h3>
+						第一個參數為API 代號，第二個參數為前端傳過來值的KEY(取其內容)
+					</h3>
+				</div>
+			</div>
+			<div class="form-group">
+				
+			</div>
+			<button type="button" class="btn btn-default pull-right" onclick="saves();">儲存</button>
+		</div>
+	</body>
+</html>

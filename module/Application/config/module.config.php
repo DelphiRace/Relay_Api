@@ -64,6 +64,34 @@ return array(
                     ),
                 ),
             ),
+            'testapi' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/testapi[/:action]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Testapi',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+            'callapi' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/callapi[/:action]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Callapi',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
         ),
     ),
     'service_manager' => array(
@@ -79,6 +107,8 @@ return array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
             'Application\Controller\Createapi' => 'Application\Controller\CreateapiController',
+            'Application\Controller\Testapi' => 'Application\Controller\TestapiController',
+            'Application\Controller\Callapi' => 'Application\Controller\CallapiController',
         ),
     ),
     'view_manager' => array(

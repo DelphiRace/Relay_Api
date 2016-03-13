@@ -13,7 +13,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use System_APService\clsSystem;
 
-class IndexController extends AbstractActionController
+class TestapiController extends AbstractActionController
 {
     public function indexAction()
     {
@@ -36,7 +36,9 @@ class IndexController extends AbstractActionController
 		$SysClass = new clsSystem;
 		$SysClass->initialization();
 		try{
-			$pageContent = "test";
+			$str = "System: ".$_POST["name"]." say".$_POST["say"];
+			$array = ["process"=> $str, "status"=> true];
+			$pageContent = $SysClass->Data2Json($array);
 			//----BI結束----
 		}catch(Exception $error){
 			//依據Controller, Action補上對應位置, $error->getMessage()為固定部份

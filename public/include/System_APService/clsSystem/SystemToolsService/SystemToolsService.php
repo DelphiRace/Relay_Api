@@ -347,11 +347,12 @@
 			return $response;
 		}
 		
-		public function UrlDataGet($url) {
+		public function UrlDataGet($url, $obj) {
 
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($obj));
 			curl_setopt($ch, CURLOPT_URL, $url );
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);  //skip ssl verify
 															

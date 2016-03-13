@@ -264,9 +264,9 @@
 			return $this->SystemToolsService->UrlDataPost($url, $SendArray);
 		}
 		//GET
-		public function UrlDataGet($url) {
+		public function UrlDataGet($url,$obj) {
 			//回傳結果是對象URL執行結果
-			return $this->SystemToolsService->UrlDataGet($url);
+			return $this->SystemToolsService->UrlDataGet($url,$obj);
 		}
 	#modCurl結束
 	#modMail

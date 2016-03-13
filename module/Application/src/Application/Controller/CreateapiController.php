@@ -44,7 +44,7 @@ class CreateapiController extends AbstractActionController
 			$apiName = $_POST["apiName"];
 			$apiUrl = $_POST["apiUrl"];
 
-			$apiExecute = $_POST["apiExecute"];
+			// $apiExecute = $_POST["apiExecute"];
 
 			if(!empty($apiName) and !empty($apiUrl)){
 				$path = dirname(__DIR__) . "\\..\\..\\..\\..\\public\\include\\apiSet\\".$apiType."_".$apiCode.".ini";
@@ -52,8 +52,12 @@ class CreateapiController extends AbstractActionController
 				foreach ($apiName as $key => $value) {
 					$apiOptionObject[$apiCode][$value] = $apiUrl[0];
 				}
-				echo $SysClass->Data2Json($apiOptionObject);
+				// echo $SysClass->Data2Json($apiOptionObject);
+				// 創建INI設定
 				$SysClass->creatINI($apiOptionObject, $path, true);
+				$fileName = $apiType."_".$apiCode;
+				// 創建檔案
+				$this->creatPHP($SysClass, $fileName,$_POST["executeFunctionVariable"]);
 			}
 
 			
@@ -66,5 +70,22 @@ class CreateapiController extends AbstractActionController
 		$SysClass = null;
 		$this->viewContnet['pageContent'] = $pageContent;
         return new ViewModel($this->viewContnet);
+    }
+
+    private function creatPHP($SysClass, $fileName, $executeFunctionVariable){
+    	if(empty($executeFunctionVariable)){
+    		return;
+    	}
+    	$eV = explode(",", $executeFunctionVariable);
+    	$sFileContent = '<?php'."\n";
+    	$sFileContent .= '$url=$'.$eV[0].';'."\n";
+    	$sFileContent .= '$SendArray=$_POST["'.$eV[1].'"];'."\n";
+    	$sFileContent .= '?>';
+
+    	$sFileFullPath = dirname(__DIR__) . "\\..\\..\\..\\..\\public\\include\\api\\".$fileName.".php";
+    	//創建
+    	$SysClass->CreateFile($sFileFullPath,$sFileContent);
+
+
     }
 }

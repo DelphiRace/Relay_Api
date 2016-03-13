@@ -13,30 +13,25 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use System_APService\clsSystem;
 
-class IndexController extends AbstractActionController
+class CallapiController extends AbstractActionController
 {
     public function indexAction()
     {
 		$SysClass = new clsSystem;
 		$SysClass->initialization();
 		try{
-			$pageContent = "test";
-			//----BI結束----
-		}catch(Exception $error){
-			//依據Controller, Action補上對應位置, $error->getMessage()為固定部份
-			$SysClass->WriteLog("IndexController", "indexAction", $error->getMessage());
-		}
-		$SysClass = null;
-		$this->viewContnet['pageContent'] = $pageContent;
-        return new ViewModel($this->viewContnet);
-    }
-
-    public function testapiAction()
-    {
-		$SysClass = new clsSystem;
-		$SysClass->initialization();
-		try{
-			$pageContent = "test";
+			$apiType = $_POST["apiType"];
+			$apiCode = $_POST["apiCode"];
+			$sSection = $apiCode;
+			$strIniFile = dirname(__DIR__) . "\\..\\..\\..\\..\\public\\include\\apiSet\\".$apiType."_".$apiCode.".ini";
+			$iniArr = $SysClass->GetINIInfo($strIniFile,$sSection,"",true,true);
+			foreach($iniArr as $i => $content){
+				${$i} = $content;
+				// echo $i.":".${$i};
+			}
+			$phpFile = dirname(__DIR__) . "\\..\\..\\..\\..\\public\\include\\api\\".$apiType."_".$apiCode.".php";
+			include($phpFile);
+			$pageContent = $SysClass->UrlDataPost( $url, $SendArray);
 			//----BI結束----
 		}catch(Exception $error){
 			//依據Controller, Action補上對應位置, $error->getMessage()為固定部份
